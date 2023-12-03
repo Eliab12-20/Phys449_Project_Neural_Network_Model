@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import json
 import argparse
@@ -9,7 +10,6 @@ from model import ExoplanetModel
 from data.dataset import ExoplanetDataset
 from torch.utils.data import DataLoader, Dataset
 
-
 def calculate_accuracy(output, label, percentage=5):
     diff = torch.abs(output - label)
     within_tolerance = (diff / label) <= percentage / 100.0
@@ -17,8 +17,10 @@ def calculate_accuracy(output, label, percentage=5):
     return accuracy
 
 def train(input_size, hidden_size, output_size, learning_rate, train_loader, epochs):
+    # Create directory if it doesn't exist
+    if not os.path.exists('result_dir'):
+        os.makedirs('result_dir')
 
-    
     hidden_size1 = hidden_size
     hidden_size2 = hidden_size
     hidden_size3 = hidden_size
@@ -111,7 +113,7 @@ def main():
     plt.xlabel('Epoch')
     plt.ylabel('Training Loss')
     plt.title('Training Loss over Epochs')
-    plt.savefig('training_loss.png')  # Save the plot as an image file
+    plt.savefig('result_dir/training_loss.png')  # Save the plot as an image file
     plt.show()
 
     # Plot the training accuracy over epochs
@@ -119,7 +121,7 @@ def main():
     plt.xlabel('Epoch')
     plt.ylabel('Training Accuracy')
     plt.title('Training Accuracy over Epochs')
-    plt.savefig('training_accuracy.png')  # Save the plot as an image file
+    plt.savefig('result_dir/training_accuracy.png')  # Save the plot as an image file
     plt.show()
 
     # Create an array representing the number of items in the test loader
@@ -132,14 +134,14 @@ def main():
     plt.ylabel('Values')
     plt.title('Predicted Values vs Measured Values')
     plt.legend()
-    plt.savefig('predicted_vs_measured.png')  # Save the plot as an image file
+    plt.savefig('result_dir/predicted_vs_measured.png')  # Save the plot as an image file
     plt.show()
 
     predicted_values = np.array(predicted_values)
     actual_values = np.array(actual_values)
 
     # Save the predicted and actual values in a text file
-    np.savetxt('predicted_vs_measured.txt', np.column_stack((predicted_values, actual_values)), delimiter='\t', header='Predicted\tMeasured', comments='')
+    np.savetxt('result_dir/predicted_vs_measured.txt', np.column_stack((predicted_values, actual_values)), delimiter='\t', header='Predicted\tMeasured', comments='')
 
 if __name__ == '__main__':
     main()

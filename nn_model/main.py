@@ -83,7 +83,11 @@ def main():
     num_epochs = hyperparameters["epochs"]
     hidden_size = hyperparameters["hidden_size"]
 
-    # Create directory if it doesn't exist
+    # Create 'result_dir' directory if it doesn't exist
+    if not os.path.exists('result_dir'):
+        os.makedirs('result_dir')
+
+    # Create directory for the hyperparameters if it doesn't exist
     result_dir = f'result_dir/lr:{learning_rate}_bs:{batch_size}_epochs:{num_epochs}_hs:{hidden_size}'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)

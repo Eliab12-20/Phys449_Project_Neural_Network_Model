@@ -24,8 +24,10 @@ def train(input_size, hidden_size, output_size, learning_rate, train_loader, epo
     hidden_size1 = hidden_size
     hidden_size2 = hidden_size
     hidden_size3 = hidden_size
+    hidden_size4 = hidden_size
+    hidden_size5 = hidden_size
 
-    model = ExoplanetModel(input_size, hidden_size1, hidden_size2, hidden_size3, output_size)
+    model = ExoplanetModel(input_size, hidden_size1, hidden_size2, hidden_size3, hidden_size4, hidden_size5, output_size)
     optimizer = optim.Adam(model.parameters(), lr=learning_rate)
     criterion = nn.MSELoss()
     loss_list = []

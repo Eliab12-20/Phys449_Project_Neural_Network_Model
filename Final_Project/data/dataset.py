@@ -4,6 +4,15 @@ from torch.utils.data import Dataset, DataLoader
 
 class ExoplanetDataset(Dataset):
     def __init__(self, csv_file):
+        """
+        Initializes the Exoplanet Dataset object.
+
+        Parameters:
+        - csv_file (str): The path to the CSV file containing the dataset.
+
+        Returns:
+        None
+        """
         # Load the dataset, skipping the header row
         self.data = pd.read_csv(csv_file, skiprows=[0])
         
@@ -24,9 +33,24 @@ class ExoplanetDataset(Dataset):
         self.measured_radii = torch.tensor(self.measured_radii)
         
     def __len__(self):
+        """
+        self.__len__: returns the length of the dataset.
+
+        Returns:
+            int: The length of the dataset.
+        """
         return len(self.data)
     
     def __getitem__(self, idx):
+        """
+        self.__getitem__: produces the item at the specified index.
+
+        Args:
+            idx (int): The index of the item to retrieve.
+
+        Returns:
+            dict: A dictionary containing the features and radius of the item.
+        """
         return {
             'features': self.features[idx],
             'radius': self.measured_radii[idx]

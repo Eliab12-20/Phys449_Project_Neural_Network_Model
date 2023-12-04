@@ -33,10 +33,10 @@ class ExoplanetModel(nn.Module):
         Returns:
             torch.Tensor: Output tensor from the model.
         """
-        x = F.leaky_relu(self.fc1(x))  # Apply Leaky ReLU activation to the first layer
-        x = F.leaky_relu(self.fc2(x))  # Apply Leaky ReLU activation to the second layer
-        x = F.leaky_relu(self.fc3(x))  # Apply Leaky ReLU activation to the third layer
-        x = F.leaky_relu(self.fc4(x))  # Apply Leaky ReLU activation to the fourth layer
-        x = F.leaky_relu(self.fc5(x))  # Apply Leaky ReLU activation to the fifth layer
+        x = F.relu(self.fc1(x))  # Apply Leaky ReLU activation to the first layer
+        x = F.relu(self.fc2(x))  # Apply Leaky ReLU activation to the second layer
+        x = F.relu(self.fc3(x))  # Apply Leaky ReLU activation to the third layer
+        x = F.relu(self.fc4(x))  # Apply Leaky ReLU activation to the fourth layer
+        x = F.relu(self.fc5(x))  # Apply Leaky ReLU activation to the fifth layer
         x = self.fc6(x)                # No activation function on the output layer
         return x

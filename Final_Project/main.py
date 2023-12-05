@@ -134,7 +134,7 @@ def main():
         os.makedirs('result_dir')
 
     # Create directory for the hyperparameters if it doesn't exist
-    result_dir = f'result_dir/lr:{learning_rate}_bs:{batch_size}_epochs:{num_epochs}_hs:{hidden_size}'
+    result_dir = f'result_dir/lr_{learning_rate}_bs_{batch_size}_epochs_{num_epochs}_hs_{hidden_size}'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
 

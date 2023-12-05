@@ -137,17 +137,6 @@ def main():
     result_dir = f'result_dir/lr_{learning_rate}_bs_{batch_size}_epochs_{num_epochs}_hs_{hidden_size}'
     if not os.path.exists(result_dir):
         os.makedirs(result_dir)
-    
-    ## Rename directories in 'result_dir' to remove ':' from directory names
-    # Get all directories in 'result_dir'
-    directories = [d for d in os.listdir('result_dir') if os.path.isdir(os.path.join('result_dir', d))]
-
-    for directory in directories:
-        # Replace ':' with '_' in directory name
-        new_directory = directory.replace(':', '_')
-
-        # Rename directory
-        os.rename(os.path.join('result_dir', directory), os.path.join('result_dir', new_directory))
 
     input_size = 7 # Number of feature parameters per exoplanet radii prediction
     output_size = 1 # Number of output parameters per exoplanet radii prediction

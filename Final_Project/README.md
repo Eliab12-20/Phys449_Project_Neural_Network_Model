@@ -16,6 +16,9 @@ Please ensure that the following are installed/maintained to run the code for th
     - torchvision.utils
 - matplotlib.pyplot
 - pandas
+- scikit-learn
+- astropy
+- uncertainties
 
 ## Description of Task and Solution
 

@@ -2,6 +2,7 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset, DataLoader
 
+
 class ExoplanetDataset(Dataset):
     def __init__(self, csv_file):
         """
@@ -54,4 +55,42 @@ class ExoplanetDataset(Dataset):
         return {
             'features': self.features[idx],
             'radius': self.measured_radii[idx]
+        }
+    
+
+class ExoplanetDataset2(Dataset):
+    def __init__(self, x_df, y_df, preprocess=True, mode='train'):
+        """
+        Custom dataset example for PyTorch that accepts pandas DataFrame
+        Args:
+            x_df (DataFrame): A DataFrame containing the features (input data).
+            y_df (DataFrame): A DataFrame containing the labels.
+            mode (str): 'train' if the dataset is for training, 'test' for testing.
+        """
+        self.x_data = torch.tensor(x_df.values, dtype=torch.float32)
+        self.y_data = torch.tensor(y_df.values, dtype=torch.float32)
+        self.mode = mode
+        self.preprocess = preprocess
+        if preprocess:
+            # Normalize features
+            x_mean = self.x_data.mean(axis=0)
+            x_std = self.x_data.std(axis=0)
+            self.x_data = (self.x_data - x_mean) / x_std
+            # limit y range
+            y_range = self.y_data.max() -  self.y_data.min()
+            self.y_data = (self.y_data - self.y_data.min()) / y_range
+
+    def __len__(self):
+        """
+        Return the number of samples in the dataset.
+        """
+        return len(self.x_data)
+
+    def __getitem__(self, index):
+        """
+        Generate one sample of data.
+        """
+        return {
+            'features': self.x_data[index],
+            'radius': self.y_data[index]
         }

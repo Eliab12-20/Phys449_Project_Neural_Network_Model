@@ -195,6 +195,51 @@ def main():
     predicted_values = np.array(predicted_values) # Convert the predicted values to a NumPy array
     actual_values = np.array(actual_values) # Convert the actual values to a NumPy array
 
+## Plot the relationship between predicted and measured values
+    
+    # Convert the predicted and actual values to 1D arrays
+    predicted_values = np.ravel(np.array(predicted_values))
+    actual_values = np.ravel(np.array(actual_values))
+ 
+    # Calculate the coefficients and intercept of the linear regression line
+    coefficients = np.polyfit(actual_values, predicted_values, 1)
+ 
+    # Calculate the predicted values using the coefficients and intercept
+    predicted_values_fit = coefficients[0] * actual_values + coefficients[1]
+ 
+    # Calculate the r^2 score
+    r2 = 1 - (np.sum((predicted_values - predicted_values_fit) ** 2) / ((len(predicted_values) - 1) * np.var(predicted_values, ddof=1)))
+ 
+    # Create the equation of the line
+    line_eq = f'y = {coefficients[0]:.2f}x + {coefficients[1]:.2f}'
+ 
+    # Plot the original scatter plot
+    plt.figure()
+    plt.scatter(actual_values, predicted_values, color='blue', s=15)
+ 
+    # Plot the regression line
+    plt.plot(actual_values, predicted_values_fit, color='green', label='Regression Line')
+ 
+    # Add the equation of the line and the r^2 score as text on the plot
+    plt.text(0.05, 0.95, f'{line_eq}, $R^2 = {r2:.2f}$', transform=plt.gca().transAxes)
+ 
+    # Add the rest of the plot details
+    plt.plot(actual_values, actual_values, color='red', label='y=x')
+    plt.xlabel('Measured Values ($\mathrm{R}_{\oplus}$)')
+    plt.ylabel('Predicted Values ($\mathrm{R}_{\oplus}$)')
+    plt.title('Predicted Values vs. Measured Values ($\mathrm{R}_{\oplus}$)')
+ 
+    # Move the legend to the right of the plot
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')
+ 
+    plt.axis('equal')  # Ensure that the axes are on the same scale
+ 
+    # Adjust the layout to make room for the legend
+    plt.tight_layout()
+    
+    plt.savefig(f'{result_dir}/predicted_measured_relationship.png')  # Save the plot as an image file
+    plt.show()
+    
     # Save the predicted and actual values in a text file
     np.savetxt(f'{result_dir}/predicted_vs_measured.txt', np.column_stack((predicted_values, actual_values)), delimiter='\t', header='Predicted\tMeasured', comments='')
 
